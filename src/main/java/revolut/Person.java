@@ -50,14 +50,22 @@ public class Person {
     }
 
     public double makePayment(double payBillAmount){
-        double balance = userAccounts.get("EUR").getBalance();
-        double newBalance = balance-payBillAmount;
-        setAccountBalance(newBalance);
-        return newBalance;
+        if(getAccountBalance("EUR") >= payBillAmount){
+            double balance = userAccounts.get("EUR").getBalance();
+            double newBalance = balance-payBillAmount;
+            setAccountBalance(newBalance);
+            return newBalance;
+        }
+        else{
+            System.out.println("insufficient funds");
+            return getAccountBalance("EUR");
+        }
+
     }
 
     public void receiveBillSplit(double billAmount){
         this.billSplit = billAmount;
+        System.out.println("Amount owed: " + this.billSplit);
     }
 
     public double getBillSplit() {
@@ -65,7 +73,18 @@ public class Person {
     }
 
     public void transferFunds(Person receiver){
-        setAccountBalance(getAccountBalance("EUR")-getBillSplit());
-        receiver.setAccountBalance(getAccountBalance("EUR") + getBillSplit());
+        if(getAccountBalance("EUR")>=getBillSplit()){
+            double myNewBalance = getAccountBalance("EUR") - getBillSplit();
+            double receiverNewBalance = receiver.getAccountBalance("EUR") + getBillSplit();
+            setAccountBalance(myNewBalance);
+            receiver.setAccountBalance(receiverNewBalance);
+            //System.out.println("my: " + myNewBalance + "  R: " + receiverNewBalance);
+            billSplit=0;
+            System.out.println("Successful transfer");
+        }
+        else {
+            System.out.println("Insufficient Funds");
+        }
+
     }
 }

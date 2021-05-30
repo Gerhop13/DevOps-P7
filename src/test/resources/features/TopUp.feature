@@ -9,7 +9,7 @@ Feature: TopUp Account
     And  Danny selects his DebitCard as his topUp method
     #And  Danny selects his BankAccount as his topUp method
     When Danny tops up test 100
-    Then The new balance of his euro account should now be 110
+    Then The balance in his euro account should be 110
 
 
   Scenario: Add money to Revolut account using bank account
@@ -18,7 +18,7 @@ Feature: TopUp Account
     And  Danny selects his BankAccount as his topUp method
     #And  Danny selects his BankAccount as his topUp method
     When Danny tops up test 230
-    Then The new balance of his euro account should now be 250
+    Then The balance in his euro account should be 250
 
 
 
@@ -67,11 +67,30 @@ Feature: TopUp Account
         | 12             | 1              | 10           | 13                | 9               |
 
 
-      Scenario: Splitting the bill with friends on Revolut
-        Given Danny has 200 euro in his euro Revolut account
-        And Jeff has 150 euro in his euro account
-        And Danny makes a payment of 100
-        And Danny requests split bill with Jeff 50
-        Then Jeff transfers 50 to Danny
-        Then The new balance of his euro account should now be 150
-        Then The new balance of Jeff euro account should now be 100
+      Scenario Outline: Splitting the bill with friends on Revolut successfully
+        Given Danny has <DannyBalance> euro in his euro Revolut account
+        And Jeff has <JeffBalance> euro in his euro account
+        And Danny makes a payment of <bill>
+        And Danny requests split bill with Jeff <requestedAmount>
+        When Jeff transfers <requestedAmount> to Danny
+        Then The balance in his euro account should be <newDannyBalance>
+        Then The balance in Jeff euro account should now be <newJeffBalance>
+        Examples:
+          | JeffBalance | DannyBalance | requestedAmount | newJeffBalance | newDannyBalance | bill |
+          | 150         | 200          | 50              | 100            | 150             | 100  |
+          | 200         | 250          | 75              | 125            | 175             | 150  |
+          | 250         | 300          | 100             | 150            | 200             | 200  |
+
+
+    Scenario Outline: Splitting the bill with friends on Revolut rejected
+      Given Danny has <DannyBalance> euro in his euro Revolut account
+      And Jeff has <JeffBalance> euro in his euro account
+      And Danny makes a payment of <bill>
+      And Danny requests split bill with Jeff <requestedAmount>
+      When Jeff transfers <requestedAmount> to Danny
+      Then The balance in his euro account should be <newDannyBalance>
+      Then The balance in Jeff euro account should now be <newJeffBalance>
+      Examples:
+        | JeffBalance | DannyBalance | requestedAmount | newJeffBalance | newDannyBalance | bill |
+        | 150         | 200          | 0               | 150            | 200             | 250  |
+        | 50          | 250          | 75              | 50             | 100             | 150  |

@@ -56,18 +56,18 @@ public class StepDefinitions {
 //        //throw new io.cucumber.java.PendingException();
 //    }
 
-    @Then("The new balance of his euro account should now be {double}")
-    public void the_new_balance_of_his_euro_account_should_now_be(double newBalance) {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new io.cucumber.java.PendingException();
-        //Arrange
-        double expectedResult = newBalance;
-        //Act
-        double actualResult = danny.getAccount("EUR").getBalance();
-        //Assert
-        Assert.assertEquals(expectedResult, actualResult,0);
-        System.out.println("The new final balance is: " + actualResult);
-    }
+//    @Then("The new balance of his euro account should now be {double}")
+//    public void the_new_balance_of_his_euro_account_should_now_be(double newBalance) {
+//        // Write code here that turns the phrase above into concrete actions
+//        //throw new io.cucumber.java.PendingException();
+//        //Arrange
+//        double expectedResult = newBalance;
+//        //Act
+//        double actualResult = danny.getAccount("EUR").getBalance();
+//        //Assert
+//        Assert.assertEquals(expectedResult, actualResult,0);
+//        System.out.println("The new final balance is: " + actualResult);
+//    }
 
 
 
@@ -87,7 +87,7 @@ public class StepDefinitions {
         //Arrange
         double expectedResult = newBalance;
         //Act
-        double actualResult = danny.getAccountBalance("EUR");
+        double actualResult = danny.getAccount("EUR").getBalance();
         System.out.println("In assert on check euro account balance: " + actualResult +
                 " : "+ expectedResult);
         //Assert
@@ -158,8 +158,8 @@ public class StepDefinitions {
     }
 
 
-    @Then("The new balance of Jeff euro account should now be {double}")
-    public void the_new_balance_of_jeff_euro_account_should_now_be(double newBalance) {
+    @Then("The balance in Jeff euro account should now be {double}")
+    public void the_balance_in_jeff_euro_account_should_now_be(double newBalance) {
         //Arrange
         double expectedResult = newBalance;
         //Act
