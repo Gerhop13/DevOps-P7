@@ -29,13 +29,14 @@ Feature: TopUp Account
   Scenario Outline: Add various amounts to Revolut account
     Given Danny has <startBalance> euro in his euro Revolut account
     And Danny selects his DebitCard as his topUp method
-    When Danny tops up test <topUpAmount>
+    And Danny has a DebitCard balance of <debitBalance>
+    When Danny tops up <topUpAmount>
     Then The balance in his euro account should be <newBalance>
     Examples:
-      | startBalance| topUpAmount | newBalance  |
-      | 0           | 100         | 100         |
-      | 14          | 20          | 34          |
-      | 23          | 30          | 53          |
+      | startBalance | topUpAmount | newBalance | debitBalance |
+      | 0            | 100         | 100        | 150          |
+      | 14           | 20          | 14         | 15           |
+      | 23           | 30          | 53         | 30           |
 
   Rule: The account balance shouldn't change if the topup payment request is rejected by the payment service
 
